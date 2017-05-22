@@ -27,29 +27,38 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <h1>Boards</h1>
+            <h1>{{$board['name']}}</h1>
+            <hr />
             <div class="row">
-                @forelse ($boards as $board)
-                    <div class="col-md-4">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">{{ $board['name'] }}</h3>
-                            </div>
-                            <div class="panel-body">
-                                <strong>Members:</strong> {{ sizeof($board['memberships']) }}
-                            </div>
-                            <div class="panel-footer text-right">
-                                <a class="btn btn-primary" href="board/{{$board['id']}}">
-                                    <i class="glyphicon glyphicon-search"> </i> Ver
-                                </a>
-                            </div>
-                        </div>
+                <div class="col-md-2">
+                    <label class="control-label">Name:</label>
+                </div>
+                <div class="col-md-10">
+                    <p>{{ $card['name'] }}</p>
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label">Description:</label>
+                </div>
+                <div class="col-md-10">
+                    @if($card['desc'])
+                        <p>{{ $card['desc'] }}</p>
+                    @else
+                        <p>Empty</p>
+                    @endif
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label">List:</label>
+                </div>
+                <div class="col-md-10">
+                    <p>{{ $list['name'] }}</p>
+                </div>
+                <form method="post" action="">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="id" value="{{$card['id']}}">
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
                     </div>
-                @empty
-                    <div class="col-md-12 alert alert-danger">
-                        <p>Boards not found</p>
-                    </div>
-                @endforelse
+                </form>
             </div>
         </div>
     </div>

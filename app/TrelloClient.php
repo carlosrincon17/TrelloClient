@@ -3,21 +3,33 @@
 namespace App;
 
 use GuzzleHttp\Client;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Log;
 
 class TrelloClient {
 
     private $trello_url = "http://api.trello.com/1/";
     private $client = null;
+
     function __construct()
     {
         $this->client = new Client(['base_uri' => $this->trello_url]);
     }
 
-    public function post($url, $data){
+    public function post($url, $data, $token=null){
+        $response = $this->client->post($this->addAuthParams($url, $token), $data);
+        if($response->getStatusCode() != 200){
+            return null;
+        }
+        return json_decode($response->getBody(), true);
+    }
 
+    public function delete($url, $token=null){
+        $response = $this->client->delete($this->addAuthParams($url, $token));
+        if($response->getStatusCode() != 200){
+            return null;
+        }
+        return json_decode($response->getBody(), true);
     }
 
     public function get($url, $token=null){
@@ -37,7 +49,6 @@ class TrelloClient {
         if($token){
             $url .= "&token=".$token;
         }
-        Log::info($url);
         return $url;
     }
 }

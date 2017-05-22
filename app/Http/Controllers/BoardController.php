@@ -21,22 +21,49 @@ class BoardController extends Controller
         $this->trelloClient = new TrelloClient();
     }
 
-    function show(){
+    function showList(){
         $boards =  $this->getBoards();
-        $user = array(
-            'name'=> session('fullName'),
-            'username'=> session('username')
-        );
-        return view('board.index', array('user'=> $user, 'boards'=> $boards));
+        return view('board.index', array('user'=> AuthController::getUserInSession(), 'boards'=> $boards));
     }
 
-    function login(Request $request){
+    function showBoard($id){
+        $cards = $this->getCardsFromBoard($id);
+        $board = $this->getBoard($id);
+        $lists = $this->getBoardLists($id);
+        return view('board.cards', array(
+            'user'=> AuthController::getUserInSession(),
+            'listCards'=> $this->groupListCards($cards, $lists),
+            'board'=> $board));
+    }
 
+    private function groupListCards($cards, $lists){
+        $arrayLists = array();
+        foreach ($lists as $list){
+            $list['cards'] = array();
+            $arrayLists[$list['id']] = $list;
+        }
+        foreach ($cards as $card){
+            array_push( $arrayLists[$card['idList']]['cards'], $card);
+        }
+        return array_values($arrayLists);
     }
 
     private function getBoards(){
-        $idMember = session('idMember');
-        $boards = $this->trelloClient->get("member/{$idMember}/boards");
+        $idMember = AuthController::getUserInSession()['idMember'];
+        $boards = $this->trelloClient->get("members/{$idMember}/boards");
         return $boards;
     }
+
+    private function getCardsFromBoard($idBoard){
+        return $this->trelloClient->get("boards/{$idBoard}/cards");
+    }
+
+    private function getBoard($id){
+        return $this->trelloClient->get("boards/{$id}");
+    }
+
+    public function getBoardLists($id){
+        return $this->trelloClient->get("boards/{$id}/lists");
+    }
+
 }

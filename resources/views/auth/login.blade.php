@@ -37,7 +37,7 @@
     <div class="row" style="margin-top: 50px">
         <div class="col-md-6 col-md-offset-3 text-center">
             <h1>Awesome Trello Client</h1>
-            <button type="button" class="btn btn-primary" onclick="authenticateTrello()">Iniciar session en trello</button>
+            <button type="button" class="btn btn-primary" onclick="authenticateTrello()">Trello Login</button>
         </div>
     </div>
 @endsection

@@ -32,4 +32,13 @@ class AuthController extends Controller
         session($session_data);
         return response("Ok");
     }
+
+    public static function getUserInSession(){
+        return array(
+            'name'=> session('fullName'),
+            'username'=> session('username'),
+            'idMember'=> session('idMember'),
+            'token' => session('token'),
+        );
+    }
 }
