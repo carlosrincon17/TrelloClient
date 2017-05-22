@@ -25,7 +25,8 @@
             data: data,
             headers: headers,
             success: function(data, textStatus, jqXHR){
-                window.location.href = '/board';
+                location.reload();
+                localStorage.clear();
             }
         });
     }

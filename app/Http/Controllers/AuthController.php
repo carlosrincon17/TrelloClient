@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Log;
 class AuthController extends Controller
 {
     function showLogin(){
+        if(session('token')){
+            return (new BoardController())->showList();
+        }
         return view('auth.login');
     }
 
@@ -31,6 +34,11 @@ class AuthController extends Controller
         ];
         session($session_data);
         return response("Ok");
+    }
+
+    function logout(Request $request){
+        $request->session()->flush();
+        return redirect('/');
     }
 
     public static function getUserInSession(){

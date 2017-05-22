@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class TrelloClient {
 
-    private $trello_url = "http://api.trello.com/1/";
+    private $trello_url = "https://api.trello.com/1/";
     private $client = null;
 
     function __construct()
@@ -16,8 +16,20 @@ class TrelloClient {
         $this->client = new Client(['base_uri' => $this->trello_url]);
     }
 
+    public function put($url, $data, $token=null){
+        $response = $this->client->put($this->addAuthParams($url, $token), [
+            'form_params'=> $data
+        ]);
+        if($response->getStatusCode() != 200){
+            return null;
+        }
+        return json_decode($response->getBody(), true);
+    }
+
     public function post($url, $data, $token=null){
-        $response = $this->client->post($this->addAuthParams($url, $token), $data);
+        $response = $this->client->post($this->addAuthParams($url, $token), [
+            'form_params'=> $data
+        ]);
         if($response->getStatusCode() != 200){
             return null;
         }

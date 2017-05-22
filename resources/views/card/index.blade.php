@@ -2,27 +2,7 @@
 
 @section('title', 'Boards')
 @section('navbar')
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Awesome Trello Client</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a>{{$user['name']}}</a></li>
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div>
-    </nav>
+    @include('menu')
 @endsection
 @section('content')
     <div class="row">
@@ -56,7 +36,8 @@
                     {{ csrf_field() }}
                     <input type="hidden" name="id" value="{{$card['id']}}">
                     <div class="col-md-12 text-right">
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <a href="/board/{{$board['id']}}/card/{{$card['id']}}/edit" class="btn btn-primary">Edit</a>
+                        <button type="submit" class="btn btn-danger">Delete</button>
                     </div>
                 </form>
             </div>

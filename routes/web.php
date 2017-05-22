@@ -13,9 +13,12 @@
 
 Route::get('/', 'AuthController@showLogin');
 Route::post('/', 'AuthController@login');
+Route::get('/logout', 'AuthController@logout');
 Route::get('/board', 'BoardController@showList');
 Route::get('/board/{id}', 'BoardController@showBoard')->name('board');
 Route::get('/board/{id}/card/{idCard}', 'CardController@show');
 Route::post('/board/{id}/card/{idCard}', 'CardController@delete');
 Route::get('/board/{id}/card/', 'CardController@showNew');
 Route::post('/board/{id}/card/', 'CardController@add');
+Route::get('/board/{id}/card/{idCard}/edit', 'CardController@edit');
+Route::post('/board/{id}/card/{idCard}/edit', 'CardController@update');

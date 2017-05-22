@@ -36,19 +36,41 @@ class CardController extends Controller
             'lists'=> $lists));
     }
 
+    function edit($id, $idCard){
+        $board = $this->getBoard($id);
+        $card = $this->getCard($idCard);
+        $lists =  (new BoardController())->getBoardLists($id);
+        return view('card.edit', array('user'=> AuthController::getUserInSession(), 'board'=> $board,
+            'lists'=> $lists, 'card'=> $card));
+    }
+
     function add(Request $request, $id){
         $data = array(
-            'idList'=> $request->idList,
+            'idList' => $request->idList,
             'name'=> $request->name,
-            'desc '=> $request->description
+            'desc'=> $request->description
         );
         $response = $this->addCard($data);
+        return redirect()->route('board', ['id' => $id]);
+    }
+
+    function update(Request $request, $id, $idCard){
+        $data = array(
+            'idList' => $request->idList,
+            'name'=> $request->name,
+            'desc'=> $request->description
+        );
+        $response = $this->updateCard($idCard, $data);
         return redirect()->route('board', ['id' => $id]);
     }
 
     function delete($id, $idCard){
         $this->deleteCard($idCard);
         return redirect()->route('board', ['id' => $id]);
+    }
+
+    private function updateCard($idCard, $data){
+        return $this->trelloClient->put("cards/".$idCard, $data);
     }
 
     private function addCard($data){
