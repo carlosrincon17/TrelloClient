@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-8"><h1>{{ $board['name'] }}</h1></div>
-                <div class="col-md-4 text-right"><a class="btn btn-primary" href="/board/{{$board['id']}}/card/"> Nuevo</a></div>
+                <div class="col-md-4 text-right"><a class="btn btn-primary" href="/board/{{$board['id']}}/card/"> New</a></div>
             </div>
             <div class="row">
                 @forelse ($listCards as $list)

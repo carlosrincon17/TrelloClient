@@ -20,7 +20,7 @@
                             </div>
                             <div class="panel-footer text-right">
                                 <a class="btn btn-primary" href="board/{{$board['id']}}">
-                                    <i class="glyphicon glyphicon-search"> </i> Ver
+                                    <i class="glyphicon glyphicon-search"> </i> Details
                                 </a>
                             </div>
                         </div>

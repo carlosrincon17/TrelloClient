@@ -5,15 +5,9 @@
 @section('content')
     <script src="https://api.trello.com/1/client.js?key=f04d128e969065f8b91890f85461dbd5" type="text/javascript"></script>
     <script>
-    function authenticateTrello() {
-        Trello.authorize({
-            name: "Trello Client",
-            interactive: true,
-            expiration: "never",
-            success: function () { onAuthorizeSuccessful(); },
-            error: function () { onFailedAuthorization(); },
-            scope: { write: true, read: true }
-            });
+
+    function onFailedAuthorization() {
+        // whatever
     }
 
     function onAuthorizeSuccessful() {
@@ -25,15 +19,32 @@
             data: data,
             headers: headers,
             success: function(data, textStatus, jqXHR){
+                console.log("ava")
                 location.reload();
-                localStorage.clear();
             }
         });
     }
 
-    function onFailedAuthorization() {
-        // whatever
+    function authenticateTrello() {
+        Trello.authorize({
+            name: "Trello Client",
+            interactive: true,
+            type: 'popup',
+            expiration: "never",
+            persist: false,
+            success: onAuthorizeSuccessful,
+            error: onFailedAuthorization,
+            scope: { write: true, read: true }
+            });
     }
+
+    function validate(){
+        if(Trello)
+            if(Trello.token())
+                onAuthorizeSuccessful();
+    }
+
+    validate();
     </script>
     <div class="row" style="margin-top: 50px">
         <div class="col-md-6 col-md-offset-3 text-center">

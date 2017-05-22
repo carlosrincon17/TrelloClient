@@ -37,8 +37,15 @@ class AuthController extends Controller
     }
 
     function logout(Request $request){
+        $response = $this->removeToken();
         $request->session()->flush();
         return redirect('/');
+    }
+
+    private function removeToken(){
+        $trello_client =  new TrelloClient();
+        $token = self::getUserInSession()['token'];
+        return $trello_client->delete("token/{$token}");
     }
 
     public static function getUserInSession(){
