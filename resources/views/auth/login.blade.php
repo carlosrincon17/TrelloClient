@@ -38,13 +38,6 @@
             });
     }
 
-    function validate(){
-        if(Trello)
-            if(Trello.token())
-                onAuthorizeSuccessful();
-    }
-
-    validate();
     </script>
     <div class="row" style="margin-top: 50px">
         <div class="col-md-6 col-md-offset-3 text-center">
